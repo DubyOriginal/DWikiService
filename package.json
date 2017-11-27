@@ -1,0 +1,34 @@
+{
+  "name": "dwiki",
+  "version": "0.1.0",
+  "description": "programming assistant",
+  "main": "DWikiApp.js",
+  "dependencies": {
+    "ajax-request": "^1.2.3",
+    "body-parser": "^1.18.1",
+    "config.json": "0.0.4",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "moment": "^2.18.1",
+    "mysql": "^2.14.1",
+    "nodemon": "^1.12.1",
+    "path": "^0.12.7",
+    "request": "^2.81.0",
+    "router": "^1.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "[git-url-of-your-project]"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-util": "latest",
+    "gulp-uglify": "latest",
+    "gulp-concat": "latest"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dubravko Vrbancic",
+  "license": "ISC"
+}

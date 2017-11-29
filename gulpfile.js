@@ -16,13 +16,13 @@ function exec(format, params) {
 
 function deployLive(server_user, server_ip) {
   console.log("------------------------------------------------------------");
-  console.log('deploy LIVE (v%s-%s) to server: %s', config.service.version, config.service.mode, server_ip);
+  console.log('deploy (%s) v%s to server -> %s:%s', config.service.mode, config.service.version, server_ip, config.service.port);
   //console.log("######### : " + JSON.stringify(config));
   console.log("stoppingDWikiApp....");
   try {
     exec('ssh %s@%s "pm2 delete DWikiApp --silent"', server_user, server_ip);
   } catch(e){
-    console.log("DWikiApp not running or some error:", e);
+    console.log("err: Unable to stop DWikiApp OR already stopped!");
   };
 
   console.log("transfer source....");
@@ -47,7 +47,7 @@ function deployLive(server_user, server_ip) {
 
 function deployDevelop() {
   console.log("------------------------------------------------------------");
-  console.log('deploy DEVELOP - (locally) (v%s-%s) to server: %s', config.service.version, config.service.mode, config.server.ip);
+  console.log('deploy (%s) v%s to server -> %s:%s', config.service.mode, config.service.version, config.server.ip, config.server.port);
 
   try {exec('pm2 delete DWikiApp --silent');} catch (e) {}
   exec('NODE_ENV=DEVELOP pm2 start DWikiApp.js');
@@ -110,6 +110,7 @@ gulp.task('develop_pm2', [], function (done) {
   done()
 })
 
+/*
 gulp.task('develop_node', function() {
   var env = Object.create(process.env);
   env.NODE_ENV = 'DEVELOP';
@@ -120,7 +121,12 @@ gulp.task('develop_node', function() {
 
   var spawn = require('child_process').spawn;
   spawn('node', ['DWikiApp.js'], { stdio: 'inherit', env: env});
+});
+*/
 
+gulp.task('stop_wiki_develop', [], function (done) {
+  try {exec('pm2 delete DWikiApp --silent');} catch (e) {}
+  done()
 });
 
 

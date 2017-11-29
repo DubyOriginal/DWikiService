@@ -24,16 +24,15 @@ class DWikiRouter {
 
 new DWikiRouter();
 
-const APP_PORT = config.server.port;
-
 //**********************************************************************************************************************
 // EXPRESS CONFIGURATION
 //**********************************************************************************************************************
 let viewPath = __dirname + '/../views';
 let resPath = __dirname + '/../resources';
 let bowerPath = __dirname + '/../bower_components';
+console.log("resPath -> " + resPath);
 app.use(express.static(viewPath));
-app.use(express.static(resPath));
+app.use('/wiki/', express.static(resPath));
 app.use(express.static(bowerPath));
 
 // Tell express to use the body-parser middleware and to not parse extended bodies
@@ -46,27 +45,31 @@ app.set('view engine', 'ejs');
 //**********************************************************************************************************************
 // FRONT ROUTES - PAGE
 //**********************************************************************************************************************
+//app.get('/', function (req, res) {
+//  res.redirect('/wiki/')
+//});
+
 //PAGE - Home
-app.get('/', function (req, res) {
+app.get('/wiki/', function (req, res) {
   console.log("loading page -> Home");
   res.render('./pages/index')
 });
 
 //PAGE - About
-app.get('/about', function (req, res) {
+app.get('/wiki/about', function (req, res) {
   console.log("loading page -> About");
   res.render('./pages/about');
 });
 
 //**********************************************************************************************************************
 // PUBLIC ROUTES
-app.use('/test', function (req, res, next) {
+app.use('/wiki/test', function (req, res, next) {
   console.log("server: /test");
 });
 
 // get values from DB
-app.get('/getallsensorsdata', function (req, res) {
-  console.log("server: GET /getallsensorsdata");
+app.get('/wiki/getallsensorsdata', function (req, res) {
+  console.log("server: GET /wiki/getallsensorsdata");
   monitorApi.getAllSensorsData((result) => {
     if (res != null){
       if (result != null){
@@ -76,13 +79,14 @@ app.get('/getallsensorsdata', function (req, res) {
         res.send(null);
       }
     }else{
-      console.log("/getallsensorsdata res in NULL");
+      console.log("/wiki/getallsensorsdata res in NULL");
     }
   });
 });
 
 
 //**********************************************************************************************************************
+let APP_PORT = config.service.port;
 app.listen(APP_PORT, function (err) {
   if (err) {
     console.log("app.listen err -> " + err)

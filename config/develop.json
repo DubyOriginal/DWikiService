@@ -1,14 +1,14 @@
 {
   "server": {
     "user": "duby",
-    "ip": "192.168.1.24",
+    "ip": "localhost",
     "dns": "duby.ddns.net"
   },
   "service": {
     "version": "1.0.0",
     "mode": "DEVELOP",
     "path": "/home/duby/DWikiService",
-    "port": 2200
+    "port": 2202
   },
   "database": {
     "host": "localhost",

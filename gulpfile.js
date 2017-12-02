@@ -31,7 +31,7 @@ function deployLive(server_user, server_ip) {
   exec('scp DWikiApp.js %s@%s:./DWikiService/', server_user, server_ip);
   exec('scp -r config %s@%s:./DWikiService/', server_user, server_ip);
   exec('scp -r src %s@%s:./DWikiService/', server_user, server_ip);
-  exec('scp -r resources %s@%s:./DWikiService/', server_user, server_ip);
+  exec('scp -r res %s@%s:./DWikiService/', server_user, server_ip);
   exec('scp -r views %s@%s:./DWikiService/', server_user, server_ip);
   //exec('scp -r private %s@%s:./DWikiService/', server_user, server_ip);
 
@@ -47,7 +47,7 @@ function deployLive(server_user, server_ip) {
 
 function deployDevelop() {
   console.log("------------------------------------------------------------");
-  console.log('deploy (%s) v%s to server -> %s:%s', config.service.mode, config.service.version, config.server.ip, config.server.port);
+  console.log('deploy (%s) v%s to server -> %s:%s', config.service.mode, config.service.version, config.server.ip, config.service.port);
 
   try {exec('pm2 delete DWikiApp --silent');} catch (e) {}
   exec('NODE_ENV=DEVELOP pm2 start DWikiApp.js');
@@ -102,13 +102,7 @@ gulp.task('live_pm2', [], function (done) {
   done()
 })
 
-gulp.task('develop_pm2', [], function (done) {
-  var env = Object.create(process.env);
-  env.NODE_ENV = 'DEVELOP';
-  config = new Config();
-  deployDevelop();
-  done()
-})
+
 
 /*
 gulp.task('develop_node', function() {
@@ -129,5 +123,17 @@ gulp.task('stop_wiki_develop', [], function (done) {
   done()
 });
 
+gulp.task('run_as_nodemon ', [], function (done) {
+  try {exec('nodemon DWikiApp.js');} catch (e) {}
+  done()
+});
+
+gulp.task('develop_pm2', [], function (done) {
+  var env = Object.create(process.env);
+  env.NODE_ENV = 'DEVELOP';
+  config = new Config();
+  deployDevelop();
+  done()
+})
 
 
